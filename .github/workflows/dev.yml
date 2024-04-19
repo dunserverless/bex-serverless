@@ -34,16 +34,16 @@ jobs:
         run: npm ci
 
       - name: install CDK
-        run: npm install -g aws-cdk
+        run: make install
 
       - name: deploy to dev
-        run: cdk deploy --all --require-approval never
+        run: cdk deploy --all --require-approval never --context stageName=bex
 
       - name: export env
-        run: ./export-env.sh ApiStack-dev us-east-1
+        run: make export
 
       - name: run integration test
-        run: npm run test
+        run: make test
 
       - name: run end-to-end tests
-        run: npm run test:e2e
+        run: make e2e
