@@ -5,6 +5,9 @@ creds:
 	export AWS_PROFILE=sandy 
 	eval $(aws-sso-creds export -p sandy)
 
+install:
+	npm install -g aws-cdk
+
 build:
 	cdk deploy --all  --context stageName=bex
 
