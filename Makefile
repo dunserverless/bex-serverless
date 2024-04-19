@@ -6,7 +6,7 @@ creds:
 	eval $(aws-sso-creds export -p sandy)
 
 build:
-	cdk deploy --all 
+	cdk deploy --all  --context stageName=bex
 
 destroy:
 	cdk destroy --all 
