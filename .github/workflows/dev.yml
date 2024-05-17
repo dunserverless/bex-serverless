@@ -34,16 +34,26 @@ jobs:
         run: npm ci
 
       - name: install CDK
-        run: make install
+        run: npm install -g aws-cdk
+
+      - name: deploy temp environment
+        run: cdk deploy --all --context stageName=bex-dev-ci --require-approval never
+
+      - name: export env
+        run: ./export-env.sh ApiStack-bex-dev-ci eu-west-1
+
+      - name: seed database
+        run: node seed-restaurants.js
+
+      - name: run integration test
+        run: npm run test
+
+      - name: run end-to-end tests
+        run: npm run test:e2e
+
+      - name: destroy temp environment
+        run: cdk destroy --all --context stageName=bex-dev-ci --force
 
       - name: deploy to dev
         run: cdk deploy --all --require-approval never --context stageName=bex
-
-      - name: export env
-        run: make export
-
-      - name: run integration test
-        run: make test
-
-      - name: run end-to-end tests
-        run: make e2e
+        
